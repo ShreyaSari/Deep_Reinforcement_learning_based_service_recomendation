@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multi-Agent RL Recommender</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      background: #fff;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    form {
+      margin-top: 20px;
+    }
+    input[type="text"] {
+      width: calc(100% - 20px);
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #5a67d8;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #4c51bf;
+    }
+    .results {
+      margin-top: 20px;
+    }
+    .paper {
+      padding: 10px;
+      background: #f9fafb;
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+    .paper a {
+      color: #5a67d8;
+      text-decoration: none;
+    }
+    .paper a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Multi-Agent RL Recommender</h1>
+    <form id="recommendationForm">
+      <input type="text" id="categoryInput" placeholder="Enter category (e.g., cs.AI)" required />
+      <button type="submit">Get Recommendations</button>
+    </form>
+    <div class="results" id="results"></div>
+  </div>
+
+  <script>
+    const API_URL = "https://4c8a-34-124-157-142.ngrok-free.app"; // Replace with your ngrok URL
+
+    document.getElementById("recommendationForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const category = document.getElementById("categoryInput").value.trim();
+      const resultsDiv = document.getElementById("results");
+      resultsDiv.innerHTML = "";
+
+      if (!category) {
+        resultsDiv.innerHTML = "<p>Please enter a category.</p>";
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_URL}/recommend`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ category }),
+        });
+
+        const data = await response.json();
+        if (response.ok && data.papers.length > 0) {
+          data.papers.forEach((paper) => {
+            const paperDiv = document.createElement("div");
+            paperDiv.className = "paper";
+            paperDiv.innerHTML = `
+              <h3><a href="${paper.Link}" target="_blank">${paper.Title}</a></h3>
+            `;
+            resultsDiv.appendChild(paperDiv);
+          });
+        } else {
+          resultsDiv.innerHTML = `<p>${data.error || "No papers found for this category."}</p>`;
+        }
+      } catch (error) {
+        resultsDiv.innerHTML = "<p>Failed to fetch recommendations. Please try again later.</p>";
+      }
+    });
+  </script>
+</body>
+</html>
