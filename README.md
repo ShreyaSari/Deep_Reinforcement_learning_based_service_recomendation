@@ -1,7 +1,6 @@
-# Deep Q-Learning for Research Paper Recommendations
+# Multi-Agent Deep Reinforcement Learning-based Research Paper Recommendation System
 
-A Deep Reinforcement Learning-based recommendation system designed to suggest relevant research papers based on user-selected categories. The model uses a Deep Q-Network (DQN) to learn an effective policy that maximizes the relevance of recommended papers.
-
+A Multi-Agent Deep Reinforcement Learning (MARL) based recommendation system designed to suggest relevant research papers based on user-selected categories. The system leverages multiple agents, each trained using Deep Q-Networks (DQN), to collaboratively learn effective recommendation policies. These agents interact with the environment to optimize paper relevance and diversity, ensuring personalized and context-aware research paper suggestions.
 ---
 
 ## Overview
