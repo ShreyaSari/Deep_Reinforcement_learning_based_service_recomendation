@@ -68,7 +68,3 @@ The dataset includes metadata for each research paper:
 
 This project showcases the power of Deep Reinforcement Learning in crafting dynamic and accurate research paper recommendations, improving both relevance and user satisfaction in academic discovery.
 
----
-
-## Repository Structure
-
